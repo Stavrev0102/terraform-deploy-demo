@@ -34,7 +34,11 @@ jobs:
       uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}  
-
+          
+    #Init app
+    - name: Init App
+    - run: terraform init
+    
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false -out=tfplan
