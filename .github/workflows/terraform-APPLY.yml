@@ -17,7 +17,6 @@ jobs:
   terraform-plan:
     name: 'Terraform '
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -49,3 +48,29 @@ jobs:
       with: 
         name: tfplan
         path: tfplan
+
+  terraform-apply: 
+      name: 'Terraform Apply'
+      runs-on: ubuntu-latest
+      needs: terraform-plan
+
+      steps:
+        # Checkout the repository to the GitHub Actions runner
+        - name: Checkout
+          uses: actions/checkout@v3
+            # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v2
+         #Init app
+        - name: Init App
+          run: terraform init
+        #Download terraform plan
+        - name: Downlodad terraform plan
+          uses: actions/download-artifact@v2
+          with: 
+            name: tfplan
+            path: .
+
+        #apply app
+        - name: Terraform apply
+          run: terraform apply -auto-approve tfplan
