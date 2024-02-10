@@ -73,4 +73,4 @@ jobs:
 
         #apply app
         - name: Terraform apply
-          run: terraform apply -auto-approve tfplan -lock=false
+          run: terraform apply -auto-approve tfplan
